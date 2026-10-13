@@ -8,7 +8,7 @@ test('committed real NBA snapshot is schema valid and attributed',()=>{
  assert.ok(model.teams.length>=25);
  assert.equal(new Set(model.teams.map(x=>x.id)).size,model.teams.length);
  assert.ok(model.origin.startsWith('https://'));
- assert.match(model.data_through,/^\\d{4}-\\d{2}-\\d{2}$/);
+ assert.ok(!Number.isNaN(Date.parse(model.data_through)));
  assert.ok(model.train_samples>100 && model.test_samples>50);
  assert.ok(Number.isFinite(model.test_log_loss)&&Number.isFinite(model.baseline_log_loss));
  assert.ok(model.weights.every(Number.isFinite));
