@@ -56,3 +56,15 @@ test('bad NBA API does not break playable demo',async({page})=>{
  await page.getByRole('button',{name:/RUN THE PLAY/}).click();
  await expect(page.locator('.feed-item')).toHaveCount(1);
 });
+
+test('selecting an NBA game shows real boxscore player statistics',async({page})=>{
+ await page.route('https://cdn.nba.com/**',route=>{
+  const url=route.request().url();
+  const payload=url.includes('/boxscore/')?{game:{gameId:'0022600001',gameStatusText:'Q3',homeTeam:{teamCity:'Utah',teamName:'Jazz',players:[{personId:1,name:'Example Player',played:'1',statistics:{points:21,assists:7,reboundsTotal:9,fieldGoalsMade:8,fieldGoalsAttempted:12,threePointersMade:2,threePointersAttempted:4}}]},awayTeam:{teamCity:'Denver',teamName:'Nuggets',players:[]}}}:{scoreboard:{gameDate:'2026-10-13',games:[{gameId:'0022600001',gameStatus:2,gameStatusText:'Q3',homeTeam:{teamCity:'Utah',teamName:'Jazz',score:81},awayTeam:{teamCity:'Denver',teamName:'Nuggets',score:79}}]}};
+  return route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(payload)});
+ });
+ await page.goto('/');
+ await page.getByRole('button',{name:/View player stats for Denver Nuggets at Utah Jazz/}).click();
+ await expect(page.locator('.players-table')).toContainText('Example Player');
+ await expect(page.locator('.players-table')).toContainText('21');
+});
