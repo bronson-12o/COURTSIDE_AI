@@ -1,0 +1,39 @@
+name: Historical NBA ML experiment
+on:
+  pull_request:
+    paths:
+      - 'ml/**'
+      - '.github/workflows/real-data.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-training:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free data reader
+        run: python -m pip install 'duckdb>=1.4,<2'
+      - name: Fetch real historical finished games
+        run: python ml/fetch_historical.py --output ml/local/nba-games.csv
+      - name: Train and test model against temporal holdout
+        run: python ml/train.py ml/local/nba-games.csv --output ml/local/model-report.json
+      - name: Prepare real NBA matchup demo snapshot
+        run: python ml/build_snapshot.py ml/local/nba-games.csv --report ml/local/model-report.json --teams ml/local/nba-games.teams.json --output ml/local/real-nba-model.json
+      - name: Emit compact game data for review
+        run: python -c 'import json;print("SNAPSHOT_JSON="+json.dumps(json.load(open("ml/local/real-nba-model.json")),separators=(",",":")))'
+      - name: Print honest model-vs-baseline metrics
+        run: cat ml/local/model-report.json
+      - name: Save model evaluation report only (no redistributing bulk NBA rows)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-nba-model-report
+          path: |
+            ml/local/model-report.json
+            ml/local/real-nba-model.json

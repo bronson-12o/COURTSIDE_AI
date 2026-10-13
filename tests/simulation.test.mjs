@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {MAX_TURNS,mulberry32,estimatePlay,estimateWinProbability,simulatePossession} from '../simulation-core.mjs';
+const coach={id:'architect',defense:.035,target:'pick',offense:.51};
+const pick={id:'pick',base:.51,three:.12,turnover:.085};
+test('seeded randomness reproduces exactly',()=>{const a=mulberry32(42),b=mulberry32(42);assert.deepEqual(Array.from({length:100},()=>a()),Array.from({length:100},()=>b()));});
+test('probabilities and expected value remain bounded',()=>{for(let repeat=0;repeat<90;repeat++)for(let risk=0;risk<3;risk++){const o=estimatePlay(pick,coach,{pick:repeat},repeat,'pick',risk);assert.ok(o.make>=0&&o.make<=1);assert.ok(o.turnover>=0&&o.turnover<=1);assert.ok(o.expected>=0&&o.expected<=3);}});
+test('rival adaptation punishes repetitive play',()=>{const a=estimatePlay(pick,coach,{},0,null,1);const b=estimatePlay(pick,coach,{pick:8},8,'pick',1);assert.ok(b.make<a.make);assert.ok(b.expected<a.expected);});
+test('conservative strategy reduces turnovers',()=>{assert.ok(estimatePlay(pick,coach,{},0,null,0).turnover<estimatePlay(pick,coach,{},0,null,2).turnover);});
+test('win probability is monotonic in score and exact at final',()=>{assert.ok(estimateWinProbability(10,4,6)>estimateWinProbability(6,4,6));assert.equal(estimateWinProbability(10,4,MAX_TURNS),100);assert.equal(estimateWinProbability(4,10,MAX_TURNS),0);assert.equal(estimateWinProbability(4,4,MAX_TURNS),50);});
+test('possessions never score illegal values',()=>{const random=mulberry32(99);for(let i=0;i<500;i++){const r=simulatePossession({play:pick,coach,rng:random});assert.ok([0,2,3].includes(r.points));assert.ok([0,2,3].includes(r.opponentPoints));if(r.turnover)assert.equal(r.points,0);}});
+test('expected values distinguish different shot types',()=>{const corner={id:'three',base:.365,three:.95,turnover:.075};assert.notEqual(estimatePlay(pick,coach).expected,estimatePlay(corner,coach).expected);});

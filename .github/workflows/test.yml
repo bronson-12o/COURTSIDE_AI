@@ -1,0 +1,27 @@
+name: Test prototype
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: node --check game.js && node --check simulation-core.mjs
+      - name: Simulator unit tests
+        run: node --test tests/*.test.mjs
+      - name: Python training tests
+        run: python3 -m unittest discover -s ml/tests -v
+      - name: Install browser test runner
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser end-to-end tests
+        run: npm run test:e2e
