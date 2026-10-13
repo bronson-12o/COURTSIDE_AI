@@ -1,6 +1,9 @@
 name: Historical NBA ML experiment
 on:
   pull_request:
+    paths:
+      - 'ml/**'
+      - '.github/workflows/real-data.yml'
   workflow_dispatch:
 permissions:
   contents: read
