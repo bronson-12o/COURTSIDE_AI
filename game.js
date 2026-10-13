@@ -1,9 +1,10 @@
+import {clamp, estimatePlay, estimateWinProbability, simulatePossession} from "./simulation-core.mjs";
 // COURTSIDE AI — self-contained fictional simulation. No real NBA data or trained ML is claimed.
 const $ = id => document.getElementById(id);
 const COACHES = {
-  architect:{name:"The Architect",style:"SYSTEMATIC · DEFENSIVE",bio:"Studies your tendencies and shuts down repeated plays. Likes control more than chaos.",initial:"A",color:"#ffb89e",target:"pick",defense:0.035,offense:0.51},
-  gambler:{name:"The Gambler",style:"HIGH TEMPO · VOLATILE",bio:"Pushes the pace and gambles on steals. Leaves open threes but can overwhelm slow teams.",initial:"G",color:"#ffc36f",target:"post",defense:-0.005,offense:0.56},
-  strategist:{name:"The Strategist",style:"ADAPTIVE · BALANCED",bio:"Reads your last two choices, counters the obvious, and makes adjustments as the game unfolds.",initial:"S",color:"#b3b7ff",target:"drive",defense:0.02,offense:0.53}
+  architect:{id:"architect",name:"The Architect",style:"SYSTEMATIC · DEFENSIVE",bio:"Studies your tendencies and shuts down repeated plays. Likes control more than chaos.",initial:"A",color:"#ffb89e",target:"pick",defense:0.035,offense:0.51},
+  gambler:{id:"gambler",name:"The Gambler",style:"HIGH TEMPO · VOLATILE",bio:"Pushes the pace and gambles on steals. Leaves open threes but can overwhelm slow teams.",initial:"G",color:"#ffc36f",target:"post",defense:-0.005,offense:0.56},
+  strategist:{id:"strategist",name:"The Strategist",style:"ADAPTIVE · BALANCED",bio:"Reads your last two choices, counters the obvious, and makes adjustments as the game unfolds.",initial:"S",color:"#b3b7ff",target:"drive",defense:0.02,offense:0.53}
 };
 const PLAYS = [
   {id:"pick",name:"PICK & ROLL",icon:"↗",desc:"Create a mismatch at the elbow",base:.51,three:.12,turnover:.085,position:[440,190]},
@@ -12,32 +13,10 @@ const PLAYS = [
   {id:"post",name:"POST UP",icon:"▣",desc:"Slow it down and control the paint",base:.555,three:0,turnover:.065,position:[360,132]}
 ];
 let state, selected="pick", risk=1, busy=false;
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
 function initialState(coach="architect"){return {coach,turn:0,score:0,opp:0,attempts:0,fg:0,threes:0,points:0,used:{pick:0,three:0,drive:0,post:0},history:[50],log:[],shots:[],last:null,finished:false};}
-function coachStrength(play){
- const c=COACHES[state.coach],count=state.used[play.id],total=state.turn;
- let penalty=c.defense;
- if(c.target===play.id) penalty+=.055;
- if(total>1) penalty+=Math.min(.17,Math.max(0,count-1)*.038);
- if(state.coach==="strategist"&&state.last===play.id) penalty+=.055;
- if(state.coach==="gambler"&&play.id==="three") penalty-=.065;
- return penalty;
-}
-function odds(play){
- const adjusted=clamp(play.base-coachStrength(play)+(risk===0?.04:risk===2?-.055:0),.14,.83);
- const turnover=clamp(play.turnover+(risk===0?-.025:risk===2?.045:0)+(state.coach==="gambler"?.025:0),.015,.35);
- const three=play.three;
- const expected=(1-turnover)*adjusted*(2+three);
- return {make:adjusted,turnover,three,expected};
-}
-function winProbability(){
- const remaining=12-state.turn;
- if(!remaining) return state.score>state.opp?100:state.score<state.opp?0:50;
- const diff=state.score-state.opp;
- // Heuristic logistic spread (not trained, not calibrated to historical games).
- const scale=Math.max(2,Math.sqrt(remaining)*2.25);
- return clamp(Math.round(100/(1+Math.exp(-diff/scale))),1,99);
-}
+function odds(play){return estimatePlay(play,COACHES[state.coach],state.used,state.turn,state.last,risk);}
+function winProbability(){return estimateWinProbability(state.score,state.opp,state.turn);}
 function svgEl(name,attrs){const n=document.createElementNS("http://www.w3.org/2000/svg",name);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));return n;}
 function renderShots(){
  const g=$("shots");g.replaceChildren();
@@ -67,7 +46,7 @@ function render(){
  const c=COACHES[state.coach],prob=winProbability();
  $("coach-name").textContent=c.name;$("opponent-name").textContent=c.name.toUpperCase();$("coach-style").textContent=c.style;$("coach-bio").textContent=c.bio;$("avatar").textContent=c.initial;$("avatar").style.color=c.color;$("my-score").textContent=state.score;$("their-score").textContent=state.opp;
  $("round-label").textContent=`POSSESSION ${String(Math.min(12,state.turn+1)).padStart(2,"0")} / 12`;$("clock-label").textContent=`Q4 / ${String(Math.floor((12-state.turn)*15/60)).padStart(2,"0")}:${String(((12-state.turn)*15)%60).padStart(2,"0")}`;
- $("progress").style.width=(100*state.turn/12)+"%";$("win-prob").textContent=prob;$("win-trend").textContent=prob>55?"FAVORED":prob<45?"UNDERDOG":"EVEN";$("edge").textContent=prob>55?"+"+(prob-50)+" PTS":prob<45?"-"+(50-prob)+" PTS":"EVEN";
+ $("progress").style.width=(100*state.turn/12)+"%";$("win-prob").textContent=prob;$("win-trend").textContent=prob>55?"FAVORED":prob<45?"UNDERDOG":"EVEN";$("edge").textContent=prob>55?"+"+(prob-50)+" PP":prob<45?"-"+(50-prob)+" PP":"EVEN";
  $("status").textContent=state.finished?"FINAL":state.turn?"GAME LIVE":"TIP OFF";
  const repeat=Math.max(...Object.values(state.used));const adaptation=clamp((repeat-1)*27+(state.coach==="strategist"?10:0),0,100);
  $("adapt-label").textContent=adaptation>64?"HIGH":adaptation>24?"MODERATE":"LOW";$("adapt-fill").style.width=adaptation+"%";
@@ -83,11 +62,10 @@ function render(){
 function playTurn(){
  if(state.finished||busy)return;
  busy=true;
- const play=PLAYS.find(p=>p.id===selected),o=odds(play),roll=Math.random();
- const turnover=roll<o.turnover, made=!turnover&&Math.random()<o.make,three=made&&Math.random()<o.three;
- const points=made?(three?3:2):0;
+ const play=PLAYS.find(p=>p.id===selected);
+ const {odds:o,turnover,made,three,points,opponentPoints:oppPoints}=simulatePossession({play,coach:COACHES[state.coach],used:state.used,turn:state.turn,last:state.last,risk});
  state.attempts+=Number(!turnover);state.fg+=Number(made);state.threes+=Number(three);state.points+=points;state.score+=points;
- const defense=COACHES[state.coach],opponentMakes=Math.random()<defense.offense+(risk===2?.04:risk===0?-.02:0),oppPoints=opponentMakes?(Math.random()<.29?3:2):0;
+ const defense=COACHES[state.coach];
  state.opp+=oppPoints;
  if(!turnover)state.shots.push({x:play.position[0]+(Math.random()-.5)*47,y:play.position[1]+(Math.random()-.5)*35,made});
  state.used[play.id]++;state.last=play.id;state.turn++;state.finished=state.turn>=12;
