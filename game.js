@@ -1,4 +1,4 @@
-import {fetchScoreboard} from "./scoreboard.mjs";
+import {fetchScoreboard,fetchBoxscore} from "./scoreboard.mjs";
 import {clamp, estimatePlay, estimateWinProbability, simulatePossession} from "./simulation-core.mjs";
 // COURTSIDE AI — self-contained fictional simulation. No real NBA data or trained ML is claimed.
 const $ = id => document.getElementById(id);
@@ -92,9 +92,10 @@ async function refreshScores(force=false){
   const checked=new Date(response.checkedAt).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
   $("live-status").textContent=`NBA scoreboard for ${response.gameDate||"today"} · checked ${checked}. Feeds may be delayed.`;
   $("live-games").replaceChildren();
+  $("player-boxscore").textContent="Select a game to see player stats.";
   if(!response.games.length)$("live-games").textContent="No games listed for the NBA feed's current date.";
   for(const g of response.games){
-   const row=document.createElement("div");row.className="live-match";
+   const row=document.createElement("button");row.type="button";row.className="live-match";row.setAttribute("aria-label",`View player stats for ${g.away} at ${g.home}`);row.addEventListener("click",()=>displayBoxscore(g));
    const name=document.createElement("span");name.textContent=`${g.away} @ ${g.home}`;
    const score=document.createElement("b");score.textContent=`${g.awayScore} – ${g.homeScore}`;
    const status=document.createElement("small");status.textContent=g.statusText;
@@ -109,3 +110,37 @@ $("refresh-live").addEventListener("click",()=>refreshScores(true));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshScores();});
 setInterval(()=>refreshScores(),120000);
 refreshScores();
+
+let boxscoreRequest=0;
+async function displayBoxscore(game){
+ const id=++boxscoreRequest;
+ const panel=$("player-boxscore");
+ panel.textContent="Loading current-game player statistics…";
+ try{
+  const result=await fetchBoxscore(game.id);
+  if(id!==boxscoreRequest)return;
+  panel.replaceChildren();
+  const title=document.createElement("h3");
+  title.textContent=`PLAYER BOX SCORE · ${game.away} @ ${game.home}`;
+  panel.appendChild(title);
+  const label=document.createElement("p");
+  label.textContent=`From NBA CDN · checked ${new Date(result.checkedAt).toLocaleTimeString()} · ${result.status||"status unknown"} · traditional box score only`;
+  panel.appendChild(label);
+  if(!result.players.length){
+   const msg=document.createElement("p");msg.textContent="No player box score available yet.";panel.appendChild(msg);return;
+  }
+  const table=document.createElement("table");table.className="players-table";
+  const head=document.createElement("thead");const tr=document.createElement("tr");
+  for(const name of ["PLAYER","PTS","REB","AST","FG","3PT"]){const th=document.createElement("th");th.textContent=name;tr.appendChild(th);}head.appendChild(tr);table.appendChild(head);
+  const body=document.createElement("tbody");
+  for(const player of result.players.slice(0,12)){
+   const row=document.createElement("tr");
+   for(const value of [player.name,player.pts,player.reb,player.ast,`${player.fgm}/${player.fga}`,`${player.threes}/${player.threeAttempts}`]){
+    const td=document.createElement("td");td.textContent=String(value);row.appendChild(td);
+   }body.appendChild(row);
+  }
+  table.appendChild(body);panel.appendChild(table);
+ }catch(err){
+  if(id===boxscoreRequest)panel.textContent="Current-game player box score unavailable. No data was invented.";
+ }
+}
