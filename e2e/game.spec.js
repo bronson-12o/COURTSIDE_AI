@@ -68,3 +68,19 @@ test('selecting an NBA game shows real boxscore player statistics',async({page})
  await expect(page.locator('.players-table')).toContainText('Example Player');
  await expect(page.locator('.players-table')).toContainText('21');
 });
+
+test('trained historical NBA matchup predicts and responds to what-if adjustments',async({page})=>{
+ await page.route('**/data/real-nba-model.json',route=>route.fulfill({
+  status:200,contentType:'application/json',
+  body:JSON.stringify({kind:'HISTORICAL_PRE-GAME_NBA_WIN_MODEL',data_through:'2026-06-30',origin:'https://github.com/llimllib/nba_data',weights:[.2,.8],train_samples:2000,test_samples:500,test_log_loss:.63,baseline_log_loss:.69,teams:[{id:'UTA',name:'Utah Jazz',abbreviation:'UTA',recent_margin:8},{id:'DEN',name:'Denver Nuggets',abbreviation:'DEN',recent_margin:-2}]})
+ }));
+ await page.route('https://cdn.nba.com/**',route=>route.abort());
+ await page.goto('/');
+ await expect(page.locator('#ml-prediction')).toHaveText(/^\\d+$/);
+ const before=Number(await page.locator('#ml-prediction').innerText());
+ await page.locator('#form-adjust').fill('10');
+ const after=Number(await page.locator('#ml-prediction').innerText());
+ expect(after).toBeGreaterThan(before);
+ await expect(page.locator('#ml-evidence')).toContainText('2000 TRAIN');
+ await expect(page.locator('#ml-source')).toContainText('2026-06-30');
+});
