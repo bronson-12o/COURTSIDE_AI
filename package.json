@@ -1,0 +1,14 @@
+{
+  "name": "courtside-ai",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Zero-cost basketball strategy analytics game",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}
