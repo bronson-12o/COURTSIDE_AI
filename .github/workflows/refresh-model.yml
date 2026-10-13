@@ -1,0 +1,58 @@
+name: Daily NBA model refresh
+on:
+  schedule:
+    - cron: '25 11 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nba-model-refresh
+  cancel-in-progress: false
+jobs:
+  update-model:
+    if: github.repository == 'bronson-12o/COURTSIDE_AI' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free DuckDB reader
+        run: python -m pip install 'duckdb>=1.4,<2'
+      - name: Fetch NBA historical games through current season
+        run: python ml/fetch_historical.py --start-season 2024 --end-season 2027 --output ml/local/nba-games.csv
+      - name: Train model with chronological holdout
+        run: python ml/train.py ml/local/nba-games.csv --output ml/local/model-report.json
+      - name: Build derived browser snapshot
+        run: python ml/build_snapshot.py ml/local/nba-games.csv --report ml/local/model-report.json --teams ml/local/nba-games.teams.json --output ml/local/real-nba-model.json
+      - name: Replace snapshot only when a newer completed regular-season game exists
+        run: |
+          python - <<'PY'
+          import json
+          import shutil
+          from pathlib import Path
+          existing=Path("data/real-nba-model.json")
+          newest=Path("ml/local/real-nba-model.json")
+          old=json.loads(existing.read_text()) if existing.exists() else {}
+          new=json.loads(newest.read_text())
+          if new.get("data_through","") > old.get("data_through",""):
+              existing.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copyfile(newest, existing)
+              print("Updated model snapshot through",new["data_through"])
+          else:
+              print("No newer regular-season outcomes: no repository changes")
+          PY
+      - name: Commit only a changed compact snapshot
+        run: |
+          if git diff --quiet -- data/real-nba-model.json; then
+            echo "Snapshot unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/real-nba-model.json
+          git commit -m "Refresh historical NBA matchup model"
+          git push
