@@ -19,7 +19,7 @@ class TestLearning(unittest.TestCase):
             a=teams[(n+1+n//4)%4]
             if a==h: a=teams[(n+2)%4]
             day=date(2024,1,1)+timedelta(days=n)
-            games.append((day,h,a,100+(n%7),95+((n*3)%11)))
+            games.append((day,h,a,120+(n%7),85+((n*3)%11)))
         return games
 
     def test_features_do_not_use_future_games(self):
