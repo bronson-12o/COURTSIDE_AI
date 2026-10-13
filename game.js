@@ -1,3 +1,4 @@
+import {initModelLab} from "./model.mjs";
 import {fetchScoreboard,fetchBoxscore} from "./scoreboard.mjs";
 import {clamp, estimatePlay, estimateWinProbability, simulatePossession} from "./simulation-core.mjs";
 // COURTSIDE AI — self-contained fictional simulation. No real NBA data or trained ML is claimed.
@@ -144,3 +145,5 @@ async function displayBoxscore(game){
   if(id===boxscoreRequest)panel.textContent="Current-game player box score unavailable. No data was invented.";
  }
 }
+
+initModelLab();
