@@ -56,6 +56,10 @@ npm run test:e2e
 
 GitHub Actions runs JavaScript syntax checks, JavaScript/Python unit tests, and Playwright browser tests on PRs. A separate best-effort data workflow trains and evaluates the model against external NBA data and stores a reviewable report artifact.
 
+## Automatic historical model updates
+
+After this code reaches `main`, the separate **Daily NBA model refresh** GitHub Action checks the upstream completed regular-season games daily at approximately 11:25 UTC, retrains the model and commits an updated compact derived snapshot **only if a newer regular-season result is present**. This refresh requires no paid service or API key, but GitHub scheduling may be delayed or disabled, the upstream data mirror can fail, and updated NBA statistics can lag. The live scoreboard uses its own independent browser-side polling and remains best-effort.
+
 ## Free deployment
 
 This is a static site. A Pages deployment workflow runs on commits to `main` once GitHub Pages has been configured to use **GitHub Actions** as its source: repository **Settings → Pages → Build and deployment → Source → GitHub Actions**. No domain or paid hosting required. The default URL will be `https://bronson-12o.github.io/COURTSIDE_AI/` if Pages is enabled and deployment succeeds.
