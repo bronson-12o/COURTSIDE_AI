@@ -84,8 +84,8 @@ def download(out_path, start_season=2024, end_season=2026):
         "data_note": "Public access is not a license grant. Use subject to upstream and NBA terms."
     }
     out_path.with_suffix(".teams.json").write_text(json.dumps(
-        {team_id: {"name":name,"abbr":abbr} for team_id,name,abbr in teams},indent=2
-    )+"\\n",encoding="utf-8")
+        {team_id: {"name": name, "abbr": abbr} for team_id, name, abbr in teams}, indent=2
+    ), encoding="utf-8")
     out_path.with_suffix(".provenance.json").write_text(json.dumps(meta,indent=2)+"\n",encoding="utf-8")
     return meta
 
