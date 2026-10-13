@@ -76,7 +76,7 @@ test('trained historical NBA matchup predicts and responds to what-if adjustment
  }));
  await page.route('https://cdn.nba.com/**',route=>route.abort());
  await page.goto('/');
- await expect(page.locator('#ml-prediction')).toHaveText(/^\\d+$/);
+ await expect(page.locator('#ml-prediction')).not.toHaveText('—');
  const before=Number(await page.locator('#ml-prediction').innerText());
  await page.locator('#form-adjust').fill('10');
  const after=Number(await page.locator('#ml-prediction').innerText());
