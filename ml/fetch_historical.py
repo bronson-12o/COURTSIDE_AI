@@ -61,6 +61,7 @@ def download(out_path, start_season=2024, end_season=2026):
     try:
         db.execute(f"ATTACH '{SOURCE}' AS nba (READ_ONLY)")
         records = db.execute(SQL, [start_season, end_season, start_season, end_season]).fetchall()
+        teams = db.execute('SELECT CAST(team_id AS VARCHAR), full_name, nba_abbrev FROM nba.team_seasons WHERE season = ? AND is_nba IS TRUE ORDER BY full_name',[min(end_season,2026)]).fetchall()
     finally:
         db.close()
     rows = validate_rows(records)
@@ -82,6 +83,9 @@ def download(out_path, start_season=2024, end_season=2026):
         "row_count": len(rows),
         "data_note": "Public access is not a license grant. Use subject to upstream and NBA terms."
     }
+    out_path.with_suffix(".teams.json").write_text(json.dumps(
+        {team_id: {"name":name,"abbr":abbr} for team_id,name,abbr in teams},indent=2
+    )+"\\n",encoding="utf-8")
     out_path.with_suffix(".provenance.json").write_text(json.dumps(meta,indent=2)+"\n",encoding="utf-8")
     return meta
 
