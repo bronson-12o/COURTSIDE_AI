@@ -1,3 +1,4 @@
+import {fetchScoreboard} from "./scoreboard.mjs";
 import {clamp, estimatePlay, estimateWinProbability, simulatePossession} from "./simulation-core.mjs";
 // COURTSIDE AI — self-contained fictional simulation. No real NBA data or trained ML is claimed.
 const $ = id => document.getElementById(id);
@@ -78,3 +79,33 @@ function playTurn(){
 }
 function reset(coach=state?.coach||"architect"){state=initialState(coach);selected="pick";risk=1;$("risk").value=1;$("game-message").textContent="Pick a play to begin.";$("court-detail").textContent="Select a play to simulate a possession";render();}
 $("run-play").addEventListener("click",playTurn);$("reset").addEventListener("click",()=>reset());$("risk").addEventListener("input",e=>{risk=Number(e.target.value);render();});document.querySelectorAll("[data-coach]").forEach(b=>b.addEventListener("click",()=>reset(b.dataset.coach)));reset();
+
+let liveLastChecked=0;
+async function refreshScores(force=false){
+ if(document.hidden&&!force)return;
+ if(!force&&Date.now()-liveLastChecked<115000)return;
+ liveLastChecked=Date.now();
+ const button=$("refresh-live");button.disabled=true;
+ $("live-status").textContent="Checking official scoreboard…";
+ try{
+  const response=await fetchScoreboard();
+  const checked=new Date(response.checkedAt).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+  $("live-status").textContent=`NBA scoreboard for ${response.gameDate||"today"} · checked ${checked}. Feeds may be delayed.`;
+  $("live-games").replaceChildren();
+  if(!response.games.length)$("live-games").textContent="No games listed for the NBA feed's current date.";
+  for(const g of response.games){
+   const row=document.createElement("div");row.className="live-match";
+   const name=document.createElement("span");name.textContent=`${g.away} @ ${g.home}`;
+   const score=document.createElement("b");score.textContent=`${g.awayScore} – ${g.homeScore}`;
+   const status=document.createElement("small");status.textContent=g.statusText;
+   row.append(name,score,status);$("live-games").appendChild(row);
+  }
+ }catch(error){
+  $("live-games").replaceChildren();
+  $("live-status").textContent="Live scoreboard unavailable in this browser. The coaching game still works offline.";
+ }finally{button.disabled=false;}
+}
+$("refresh-live").addEventListener("click",()=>refreshScores(true));
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshScores();});
+setInterval(()=>refreshScores(),120000);
+refreshScores();
