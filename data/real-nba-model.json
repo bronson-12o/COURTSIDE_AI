@@ -1,7 +1,7 @@
 {
   "kind": "HISTORICAL_PRE-GAME_NBA_WIN_MODEL",
-  "generated_at_utc": "2026-10-13T07:16:50.855695+00:00",
-  "data_through": "2026-04-12",
+  "generated_at_utc": "2026-10-21T16:00:43.169014+00:00",
+  "data_through": "2026-10-20",
   "origin": "https://github.com/llimllib/nba_data",
   "training_source": "NBA completed regular-season game team logs, community mirror",
   "target": "Home team wins completed NBA game",
@@ -14,10 +14,10 @@
     1.0172424323206912
   ],
   "train_samples": 2867,
-  "test_samples": 732,
+  "test_samples": 735,
   "test_start_date": "2026-01-01",
-  "test_log_loss": 0.62928,
-  "baseline_log_loss": 0.68713,
+  "test_log_loss": 0.63018,
+  "baseline_log_loss": 0.68729,
   "limitations": "Pregame game-level baseline only. Last-five game margin proxy. Does not model injuries, rosters, in-game strategy, or possessions. Outdated form can make predictions stale.",
   "teams": [
     {
@@ -32,9 +32,9 @@
       "id": "1610612738",
       "name": "Boston Celtics",
       "abbreviation": "BOS",
-      "recent_margin": 10,
+      "recent_margin": 5.6,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612751",
@@ -48,7 +48,7 @@
       "id": "1610612766",
       "name": "Charlotte Hornets",
       "abbreviation": "CHA",
-      "recent_margin": 4,
+      "recent_margin": 4.0,
       "recent_games": 5,
       "last_game": "2026-04-12"
     },
@@ -72,7 +72,7 @@
       "id": "1610612742",
       "name": "Dallas Mavericks",
       "abbreviation": "DAL",
-      "recent_margin": -2,
+      "recent_margin": -2.0,
       "recent_games": 5,
       "last_game": "2026-04-12"
     },
@@ -88,9 +88,9 @@
       "id": "1610612765",
       "name": "Detroit Pistons",
       "abbreviation": "DET",
-      "recent_margin": 12.6,
+      "recent_margin": 9.6,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612744",
@@ -120,7 +120,7 @@
       "id": "1610612746",
       "name": "LA Clippers",
       "abbreviation": "LAC",
-      "recent_margin": 2,
+      "recent_margin": 2.0,
       "recent_games": 5,
       "last_game": "2026-04-12"
     },
@@ -144,7 +144,7 @@
       "id": "1610612748",
       "name": "Miami Heat",
       "abbreviation": "MIA",
-      "recent_margin": 5,
+      "recent_margin": 5.0,
       "recent_games": 5,
       "last_game": "2026-04-12"
     },
@@ -176,17 +176,17 @@
       "id": "1610612752",
       "name": "New York Knicks",
       "abbreviation": "NYK",
-      "recent_margin": 10.4,
+      "recent_margin": 1.2,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612760",
       "name": "Oklahoma City Thunder",
       "abbreviation": "OKC",
-      "recent_margin": 7.4,
+      "recent_margin": 2.8,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612753",
@@ -200,15 +200,15 @@
       "id": "1610612755",
       "name": "Philadelphia 76ers",
       "abbreviation": "PHI",
-      "recent_margin": -3.2,
+      "recent_margin": 2.6,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612756",
       "name": "Phoenix Suns",
       "abbreviation": "PHX",
-      "recent_margin": 1,
+      "recent_margin": 1.0,
       "recent_games": 5,
       "last_game": "2026-04-12"
     },
@@ -232,9 +232,9 @@
       "id": "1610612759",
       "name": "San Antonio Spurs",
       "abbreviation": "SAS",
-      "recent_margin": 6.2,
+      "recent_margin": 4.2,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-20"
     },
     {
       "id": "1610612761",
