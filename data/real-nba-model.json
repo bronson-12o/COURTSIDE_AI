@@ -1,7 +1,7 @@
 {
   "kind": "HISTORICAL_PRE-GAME_NBA_WIN_MODEL",
-  "generated_at_utc": "2026-10-22T15:56:39.283178+00:00",
-  "data_through": "2026-10-21",
+  "generated_at_utc": "2026-10-23T15:48:24.369648+00:00",
+  "data_through": "2026-10-22",
   "origin": "https://github.com/llimllib/nba_data",
   "training_source": "NBA completed regular-season game team logs, community mirror",
   "target": "Home team wins completed NBA game",
@@ -10,14 +10,14 @@
     "last_5_margin_difference_scaled_by_20"
   ],
   "weights": [
-    0.20682377347565709,
-    1.0196545309801686
+    0.20767401016544487,
+    1.0207576784107155
   ],
-  "train_samples": 2872,
-  "test_samples": 741,
-  "test_start_date": "2026-01-02",
-  "test_log_loss": 0.63075,
-  "baseline_log_loss": 0.68668,
+  "train_samples": 2882,
+  "test_samples": 733,
+  "test_start_date": "2026-01-03",
+  "test_log_loss": 0.63111,
+  "baseline_log_loss": 0.68656,
   "limitations": "Pregame game-level baseline only. Last-five game margin proxy. Does not model injuries, rosters, in-game strategy, or possessions. Outdated form can make predictions stale.",
   "teams": [
     {
@@ -56,7 +56,7 @@
       "id": "1610612741",
       "name": "Chicago Bulls",
       "abbreviation": "CHI",
-      "recent_margin": -9.2,
+      "recent_margin": -9.6,
       "recent_games": 5,
       "last_game": "2026-10-21"
     },
@@ -64,9 +64,9 @@
       "id": "1610612739",
       "name": "Cleveland Cavaliers",
       "abbreviation": "CLE",
-      "recent_margin": 4.4,
+      "recent_margin": 1.0,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-22"
     },
     {
       "id": "1610612742",
@@ -80,9 +80,9 @@
       "id": "1610612743",
       "name": "Denver Nuggets",
       "abbreviation": "DEN",
-      "recent_margin": 10.8,
+      "recent_margin": 8.0,
       "recent_games": 5,
-      "last_game": "2026-04-12"
+      "last_game": "2026-10-22"
     },
     {
       "id": "1610612765",
@@ -184,9 +184,9 @@
       "id": "1610612760",
       "name": "Oklahoma City Thunder",
       "abbreviation": "OKC",
-      "recent_margin": 2.8,
+      "recent_margin": -2.0,
       "recent_games": 5,
-      "last_game": "2026-10-20"
+      "last_game": "2026-10-22"
     },
     {
       "id": "1610612753",
@@ -200,9 +200,9 @@
       "id": "1610612755",
       "name": "Philadelphia 76ers",
       "abbreviation": "PHI",
-      "recent_margin": 2.6,
+      "recent_margin": 6.8,
       "recent_games": 5,
-      "last_game": "2026-10-20"
+      "last_game": "2026-10-22"
     },
     {
       "id": "1610612756",
@@ -240,7 +240,7 @@
       "id": "1610612761",
       "name": "Toronto Raptors",
       "abbreviation": "TOR",
-      "recent_margin": 20.2,
+      "recent_margin": 20.6,
       "recent_games": 5,
       "last_game": "2026-10-21"
     },
