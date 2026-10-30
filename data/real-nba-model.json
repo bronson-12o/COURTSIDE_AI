@@ -1,7 +1,7 @@
 {
   "kind": "HISTORICAL_PRE-GAME_NBA_WIN_MODEL",
-  "generated_at_utc": "2026-10-29T17:29:00.474926+00:00",
-  "data_through": "2026-10-28",
+  "generated_at_utc": "2026-10-30T17:05:15.284122+00:00",
+  "data_through": "2026-10-29",
   "origin": "https://github.com/llimllib/nba_data",
   "training_source": "NBA completed regular-season game team logs, community mirror",
   "target": "Home team wins completed NBA game",
@@ -10,13 +10,13 @@
     "last_5_margin_difference_scaled_by_20"
   ],
   "weights": [
-    0.20958501846649236,
-    1.0120021382759972
+    0.2097951444962476,
+    1.0097516818842731
   ],
-  "train_samples": 2924,
+  "train_samples": 2927,
   "test_samples": 743,
-  "test_start_date": "2026-01-08",
-  "test_log_loss": 0.62901,
+  "test_start_date": "2026-01-09",
+  "test_log_loss": 0.62881,
   "baseline_log_loss": 0.68835,
   "limitations": "Pregame game-level baseline only. Last-five game margin proxy. Does not model injuries, rosters, in-game strategy, or possessions. Outdated form can make predictions stale.",
   "teams": [
@@ -24,9 +24,9 @@
       "id": "1610612737",
       "name": "Atlanta Hawks",
       "abbreviation": "ATL",
-      "recent_margin": 5.0,
+      "recent_margin": 4.0,
       "recent_games": 5,
-      "last_game": "2026-10-28"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612738",
@@ -64,9 +64,9 @@
       "id": "1610612739",
       "name": "Cleveland Cavaliers",
       "abbreviation": "CLE",
-      "recent_margin": 4.2,
+      "recent_margin": 1.2,
       "recent_games": 5,
-      "last_game": "2026-10-28"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612742",
@@ -136,9 +136,9 @@
       "id": "1610612763",
       "name": "Memphis Grizzlies",
       "abbreviation": "MEM",
-      "recent_margin": 1.6,
+      "recent_margin": 12.0,
       "recent_games": 5,
-      "last_game": "2026-10-26"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612748",
@@ -168,9 +168,9 @@
       "id": "1610612740",
       "name": "New Orleans Pelicans",
       "abbreviation": "NOP",
-      "recent_margin": -5.8,
+      "recent_margin": -2.2,
       "recent_games": 5,
-      "last_game": "2026-10-28"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612752",
@@ -184,7 +184,7 @@
       "id": "1610612760",
       "name": "Oklahoma City Thunder",
       "abbreviation": "OKC",
-      "recent_margin": 4.2,
+      "recent_margin": 4.0,
       "recent_games": 5,
       "last_game": "2026-10-28"
     },
@@ -208,7 +208,7 @@
       "id": "1610612756",
       "name": "Phoenix Suns",
       "abbreviation": "PHX",
-      "recent_margin": -8.0,
+      "recent_margin": -7.8,
       "recent_games": 5,
       "last_game": "2026-10-26"
     },
@@ -216,9 +216,9 @@
       "id": "1610612757",
       "name": "Portland Trail Blazers",
       "abbreviation": "POR",
-      "recent_margin": 17.4,
+      "recent_margin": 9.4,
       "recent_games": 5,
-      "last_game": "2026-10-27"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612758",
@@ -226,7 +226,7 @@
       "abbreviation": "SAC",
       "recent_margin": -16.6,
       "recent_games": 5,
-      "last_game": "2026-10-27"
+      "last_game": "2026-10-29"
     },
     {
       "id": "1610612759",
