@@ -1,7 +1,7 @@
 {
   "kind": "HISTORICAL_PRE-GAME_NBA_WIN_MODEL",
-  "generated_at_utc": "2026-11-10T18:44:43.429980+00:00",
-  "data_through": "2026-11-09",
+  "generated_at_utc": "2026-11-11T18:48:53.145151+00:00",
+  "data_through": "2026-11-10",
   "origin": "https://github.com/llimllib/nba_data",
   "training_source": "NBA completed regular-season game team logs, community mirror",
   "target": "Home team wins completed NBA game",
@@ -14,10 +14,10 @@
     0.9963958385904738
   ],
   "train_samples": 2987,
-  "test_samples": 765,
+  "test_samples": 771,
   "test_start_date": "2026-01-17",
-  "test_log_loss": 0.62268,
-  "baseline_log_loss": 0.68932,
+  "test_log_loss": 0.62222,
+  "baseline_log_loss": 0.68938,
   "limitations": "Pregame game-level baseline only. Last-five game margin proxy. Does not model injuries, rosters, in-game strategy, or possessions. Outdated form can make predictions stale.",
   "teams": [
     {
@@ -32,9 +32,9 @@
       "id": "1610612738",
       "name": "Boston Celtics",
       "abbreviation": "BOS",
-      "recent_margin": 12.2,
+      "recent_margin": 14.4,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612751",
@@ -120,9 +120,9 @@
       "id": "1610612746",
       "name": "LA Clippers",
       "abbreviation": "LAC",
-      "recent_margin": -6.0,
+      "recent_margin": -5.4,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612747",
@@ -144,17 +144,17 @@
       "id": "1610612748",
       "name": "Miami Heat",
       "abbreviation": "MIA",
-      "recent_margin": -2.8,
+      "recent_margin": -5.6,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612749",
       "name": "Milwaukee Bucks",
       "abbreviation": "MIL",
-      "recent_margin": -15.6,
+      "recent_margin": -17.0,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612750",
@@ -176,17 +176,17 @@
       "id": "1610612752",
       "name": "New York Knicks",
       "abbreviation": "NYK",
-      "recent_margin": 11.2,
+      "recent_margin": 16.4,
       "recent_games": 5,
-      "last_game": "2026-11-07"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612760",
       "name": "Oklahoma City Thunder",
       "abbreviation": "OKC",
-      "recent_margin": 12.4,
+      "recent_margin": 12.6,
       "recent_games": 5,
-      "last_game": "2026-11-07"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612753",
@@ -194,39 +194,39 @@
       "abbreviation": "ORL",
       "recent_margin": -6.6,
       "recent_games": 5,
-      "last_game": "2026-11-07"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612755",
       "name": "Philadelphia 76ers",
       "abbreviation": "PHI",
-      "recent_margin": 2.4,
+      "recent_margin": -3.0,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612756",
       "name": "Phoenix Suns",
       "abbreviation": "PHX",
-      "recent_margin": -5.2,
+      "recent_margin": 0.0,
       "recent_games": 5,
-      "last_game": "2026-11-09"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612757",
       "name": "Portland Trail Blazers",
       "abbreviation": "POR",
-      "recent_margin": 3.0,
+      "recent_margin": 2.6,
       "recent_games": 5,
-      "last_game": "2026-11-07"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612758",
       "name": "Sacramento Kings",
       "abbreviation": "SAC",
-      "recent_margin": -10.0,
+      "recent_margin": -5.2,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612759",
@@ -248,9 +248,9 @@
       "id": "1610612762",
       "name": "Utah Jazz",
       "abbreviation": "UTA",
-      "recent_margin": -15.6,
+      "recent_margin": -12.4,
       "recent_games": 5,
-      "last_game": "2026-11-08"
+      "last_game": "2026-11-10"
     },
     {
       "id": "1610612764",
