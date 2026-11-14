@@ -1,7 +1,7 @@
 {
   "kind": "HISTORICAL_PRE-GAME_NBA_WIN_MODEL",
-  "generated_at_utc": "2026-11-13T18:37:54.181595+00:00",
-  "data_through": "2026-11-12",
+  "generated_at_utc": "2026-11-14T17:14:47.155303+00:00",
+  "data_through": "2026-11-13",
   "origin": "https://github.com/llimllib/nba_data",
   "training_source": "NBA completed regular-season game team logs, community mirror",
   "target": "Home team wins completed NBA game",
@@ -10,23 +10,23 @@
     "last_5_margin_difference_scaled_by_20"
   ],
   "weights": [
-    0.2192242770851892,
-    0.9959979604411335
+    0.21797760209160946,
+    1.0018398322067648
   ],
-  "train_samples": 3001,
+  "train_samples": 3010,
   "test_samples": 771,
-  "test_start_date": "2026-01-19",
-  "test_log_loss": 0.62152,
-  "baseline_log_loss": 0.69038,
+  "test_start_date": "2026-01-20",
+  "test_log_loss": 0.62362,
+  "baseline_log_loss": 0.68963,
   "limitations": "Pregame game-level baseline only. Last-five game margin proxy. Does not model injuries, rosters, in-game strategy, or possessions. Outdated form can make predictions stale.",
   "teams": [
     {
       "id": "1610612737",
       "name": "Atlanta Hawks",
       "abbreviation": "ATL",
-      "recent_margin": 3.8,
+      "recent_margin": 1.4,
       "recent_games": 5,
-      "last_game": "2026-11-09"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612738",
@@ -56,17 +56,17 @@
       "id": "1610612741",
       "name": "Chicago Bulls",
       "abbreviation": "CHI",
-      "recent_margin": -14.8,
+      "recent_margin": -10.4,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612739",
       "name": "Cleveland Cavaliers",
       "abbreviation": "CLE",
-      "recent_margin": 0.0,
+      "recent_margin": -0.8,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612742",
@@ -96,33 +96,33 @@
       "id": "1610612744",
       "name": "Golden State Warriors",
       "abbreviation": "GSW",
-      "recent_margin": 14.8,
+      "recent_margin": 6.6,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612745",
       "name": "Houston Rockets",
       "abbreviation": "HOU",
-      "recent_margin": 4.0,
+      "recent_margin": 2.2,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612754",
       "name": "Indiana Pacers",
       "abbreviation": "IND",
-      "recent_margin": 0.4,
+      "recent_margin": 2.4,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612746",
       "name": "LA Clippers",
       "abbreviation": "LAC",
-      "recent_margin": -5.4,
+      "recent_margin": -2.8,
       "recent_games": 5,
-      "last_game": "2026-11-10"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612747",
@@ -136,25 +136,25 @@
       "id": "1610612763",
       "name": "Memphis Grizzlies",
       "abbreviation": "MEM",
-      "recent_margin": -5.0,
+      "recent_margin": 1.4,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612748",
       "name": "Miami Heat",
       "abbreviation": "MIA",
-      "recent_margin": -5.6,
+      "recent_margin": 1.0,
       "recent_games": 5,
-      "last_game": "2026-11-10"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612749",
       "name": "Milwaukee Bucks",
       "abbreviation": "MIL",
-      "recent_margin": -16.8,
+      "recent_margin": -17.0,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612750",
@@ -168,33 +168,33 @@
       "id": "1610612740",
       "name": "New Orleans Pelicans",
       "abbreviation": "NOP",
-      "recent_margin": -20.0,
+      "recent_margin": -27.6,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612752",
       "name": "New York Knicks",
       "abbreviation": "NYK",
-      "recent_margin": 15.8,
+      "recent_margin": 12.8,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612760",
       "name": "Oklahoma City Thunder",
       "abbreviation": "OKC",
-      "recent_margin": 9.6,
+      "recent_margin": 7.8,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612753",
       "name": "Orlando Magic",
       "abbreviation": "ORL",
-      "recent_margin": -1.4,
+      "recent_margin": 2.0,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612755",
@@ -218,23 +218,23 @@
       "abbreviation": "POR",
       "recent_margin": 3.0,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612758",
       "name": "Sacramento Kings",
       "abbreviation": "SAC",
-      "recent_margin": -5.2,
+      "recent_margin": -10.8,
       "recent_games": 5,
-      "last_game": "2026-11-10"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612759",
       "name": "San Antonio Spurs",
       "abbreviation": "SAS",
-      "recent_margin": 13.8,
+      "recent_margin": 21.2,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612761",
@@ -250,7 +250,7 @@
       "abbreviation": "UTA",
       "recent_margin": -11.0,
       "recent_games": 5,
-      "last_game": "2026-11-11"
+      "last_game": "2026-11-13"
     },
     {
       "id": "1610612764",
