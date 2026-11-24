@@ -1,5 +1,33 @@
 # COURTSIDE AI
 
+Separate simulated coaching choices from fitted historical forecasts.
+
+## The problem
+
+A useful basketball demonstration explains which numbers are observed, estimated or invented for a scenario. This public prototype keeps those categories distinct.
+
+## How it works
+
+![Simplified project architecture](docs/presentation/system-overview.svg)
+
+The diagram summarizes the documented workflow; it is not a performance result or a generated application screenshot.
+
+## Run or inspect the work
+
+Run the preserved browser prototype with `python3 -m http.server 8000`, then open `http://localhost:8000`. Detailed historical setup remains in [the original prototype reference](docs/legacy-prototype-readme.md).
+
+## Evidence and scope
+
+The November 22, 2026 fresh-copy audit passed local JavaScript, Python and desktop/mobile browser checks for the original game. Test-runner and Pages deployment failures were recorded separately; check [Actions](https://github.com/bronson-12o/COURTSIDE_AI/actions) for the current state.
+
+The public game's probabilities are heuristic. The historical team model does not score individual shots or prove coaching impact. Newer private Film Study and assisted tracking experiments have different sources, verification and limitations; they are not a public automatic NBA-tracking service.
+
+<details>
+
+<summary>Detailed setup, original screenshots and project reference</summary>
+
+# COURTSIDE AI
+
 A basketball analysis project that keeps observed statistics, fitted predictions, and authored game scenarios distinct.
 
 ## What is in this public repository
@@ -37,3 +65,5 @@ NBA data, team/player imagery, video, and trademarks retain their publishers' ri
 Human usability/learning outcomes, physical-device accessibility, and general basketball decision effectiveness remain unverified. Independent portfolio project; no NBA or team affiliation.
 
 Detailed setup and historical prototype commands are retained in [the original prototype README](docs/legacy-prototype-readme.md).
+
+</details>
